@@ -10,13 +10,14 @@ Patch0:         libaccounts-qt-1.2-disable-multilib.patch
 Patch1:         0001-libaccounts-qt-c++0x.patch
 Patch2:         0002-libaccounts-qt-documentation-path.patch
 Patch3:         0003-Fix-test-service-MyService-to-include-messaging-tag.patch
+Patch4:         0001-Disable-iconName-due-to-unsupported-glib-API-use.patch
 BuildRequires:  doxygen
 BuildRequires:  fdupes
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Xml)
 BuildRequires:  pkgconfig(Qt5Test)
 BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  pkgconfig(libaccounts-glib) >= 1.6
+BuildRequires:  pkgconfig(libaccounts-glib) >= 1.14
 
 %description
 Framework to provide the accounts.
@@ -50,6 +51,8 @@ HTML documentation for the accounts.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 sed -i 's,DATA_PATH = .*,DATA_PATH = /opt/tests/%{name}/data,' tests/accountstest.pro
 sed -i 's,/usr/bin/accountstest,/opt/tests/%{name}/accountstest,' tests/tests.xml
 

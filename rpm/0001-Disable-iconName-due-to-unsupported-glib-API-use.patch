@@ -1,0 +1,32 @@
+From 5ac2da9e9f94d4311b25075470b7386707b0de7b Mon Sep 17 00:00:00 2001
+From: John Brooks <john.brooks@dereferenced.net>
+Date: Mon, 28 Oct 2013 10:09:44 -0600
+Subject: [PATCH] Disable iconName due to unsupported glib API use
+
+---
+ Accounts/application.cpp |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Accounts/application.cpp b/Accounts/application.cpp
+index 1f1b77f..d59e1b1 100644
+--- a/Accounts/application.cpp
++++ b/Accounts/application.cpp
+@@ -132,6 +132,7 @@ QString Application::description() const
+ QString Application::iconName() const
+ {
+     QString iconName;
++#if 0
+     GDesktopAppInfo *info =
+         ag_application_get_desktop_app_info(m_application);
+     if (Q_LIKELY(info)) {
+@@ -142,6 +143,7 @@ QString Application::iconName() const
+         }
+         g_object_unref(info);
+     }
++#endif
+     return iconName;
+ }
+ 
+-- 
+1.7.9.5
+
