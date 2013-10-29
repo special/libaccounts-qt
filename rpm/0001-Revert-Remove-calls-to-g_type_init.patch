@@ -1,0 +1,32 @@
+From 5121d8c3ad17cf0ec76e3a6339fc10473d25c020 Mon Sep 17 00:00:00 2001
+From: John Brooks <john.brooks@dereferenced.net>
+Date: Tue, 29 Oct 2013 04:27:50 -0600
+Subject: [PATCH] Revert "Remove calls to g_type_init()"
+
+This reverts commit b3d06936ddb5bc8253a326089854ef8818363c43.
+
+diff --git a/Accounts/manager.cpp b/Accounts/manager.cpp
+index fd1821a..79342b6 100644
+--- a/Accounts/manager.cpp
++++ b/Accounts/manager.cpp
+@@ -147,6 +147,8 @@ Manager::Manager(QObject *parent):
+     QObject(parent),
+     d(new Private)
+ {
++    g_type_init();
++
+     AgManager *manager = ag_manager_new();
+ 
+     if (manager != 0) {
+@@ -174,6 +176,8 @@ Manager::Manager(const QString &serviceType, QObject *parent):
+     QObject(parent),
+     d(new Private)
+ {
++    g_type_init();
++
+     AgManager *manager =
+         ag_manager_new_for_service_type(serviceType.toUtf8().constData());
+ 
+-- 
+1.7.9.5
+
