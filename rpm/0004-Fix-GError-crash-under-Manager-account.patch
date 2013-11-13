@@ -1,0 +1,32 @@
+From 8da52d341a8fbb364c153377919cbfd0b0a88b1a Mon Sep 17 00:00:00 2001
+From: John Brooks <john.brooks@jollamobile.com>
+Date: Wed, 13 Nov 2013 14:22:25 -0700
+Subject: [PATCH] Fix GError crash under Manager::account
+
+It is possible for ag_manager_load_account to return NULL without setting error
+in the case of assertion failures. Avoid crashing in this case.
+---
+ Accounts/manager.cpp | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Accounts/manager.cpp b/Accounts/manager.cpp
+index 448c925..a37a53b 100644
+--- a/Accounts/manager.cpp
++++ b/Accounts/manager.cpp
+@@ -253,10 +253,11 @@ Account *Manager::account(const AccountId &id) const
+         Account *tmp = new Account(account, const_cast<Manager*>(this));
+         g_object_unref(account);
+         return tmp;
+-    } else {
+-        Q_ASSERT(error != NULL);
++    } else if (error != NULL) {
+         d->lastError = Error(error);
+         g_error_free(error);
++    } else {
++        d->lastError = Error::Unknown;
+     }
+     return NULL;
+ }
+-- 
+1.8.3.1
+
